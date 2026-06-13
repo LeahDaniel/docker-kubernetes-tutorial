@@ -1,0 +1,36 @@
+# Git and IDE
+.git
+.gitignore
+.gitattributes
+.editorconfig
+.idea
+.vscode
+
+# Local environment (injected at runtime)
+.env
+.env.*
+!.env.example
+
+# Dependencies built inside the image
+vendor
+node_modules
+
+# Dev and test files
+tests
+phpunit.xml
+.phpunit.result.cache
+.phpunit.cache
+
+# Runtime data
+storage/logs
+storage/framework/cache
+storage/framework/sessions
+storage/framework/views
+storage/framework/links.json
+storage/pail
+
+# Docker build definition (keep docker/ — needed by COPY in Dockerfile)
+Dockerfile
+
+# Docs
+README.md
