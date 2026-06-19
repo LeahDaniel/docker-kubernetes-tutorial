@@ -13,7 +13,7 @@ FROM php:8.2-fpm-alpine AS image-builder
 
 WORKDIR /var/www/html
 
-RUN apk add postgresql-dev nginx
+RUN apk add postgresql-dev nginx supervisor
 
 RUN docker-php-ext-install pdo_pgsql bcmath
 
