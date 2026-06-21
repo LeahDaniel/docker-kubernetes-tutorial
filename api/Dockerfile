@@ -19,4 +19,14 @@ RUN docker-php-ext-install pdo_pgsql bcmath
 
 COPY --from=composer /app /var/www/html
 
+COPY docker/nginx.conf /etc/nginx/nginx.conf
 
+COPY docker/default.conf /etc/nginx/http.d/default.conf
+
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+EXPOSE 80
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

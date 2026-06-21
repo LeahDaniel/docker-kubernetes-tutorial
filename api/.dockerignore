@@ -1,3 +1,4 @@
+.env
 .env.*
 vendor
 phpunit.xml
@@ -5,5 +6,9 @@ phpunit.xml
 storage/logs
 storage/framework
 tests
+
+# Local dev cache — references dev-only packages (Pail, Collision, etc.)
+bootstrap/cache/packages.php
+bootstrap/cache/services.php
 
 
