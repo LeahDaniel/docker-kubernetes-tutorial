@@ -16,6 +16,7 @@ export CACHE_STORE="${CACHE_STORE:-file}"
 export QUEUE_CONNECTION="${QUEUE_CONNECTION:-sync}"
 
 if [ -n "$APP_KEY" ]; then
+    php artisan migrate --force
     php artisan config:cache
     php artisan route:cache
 fi

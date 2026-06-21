@@ -4,17 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLinkRequest;
 use App\Http\Resources\LinkResource;
-use App\Services\InMemoryLinkStore;
+use App\Models\Link;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 
 class LinkController extends Controller
 {
-    public function __construct(private InMemoryLinkStore $store) {}
-
     public function store(StoreLinkRequest $request): JsonResponse
     {
-        $link = $this->store->create($request->validated('url'));
+        do {
+            $code = Str::lower(Str::random(6));
+        } while (Link::where('code', $code)->exists());
+
+        $link = Link::create([
+            'code' => $code,
+            'url' => $request->validated('url'),
+        ]);
 
         return LinkResource::make($link)
             ->response()
@@ -23,14 +29,14 @@ class LinkController extends Controller
 
     public function redirect(string $code): RedirectResponse|JsonResponse
     {
-        $link = $this->store->find($code);
+        $link = Link::where('code', $code)->first();
 
         if ($link === null) {
             return response()->json(['message' => 'Link not found.'], 404);
         }
 
-        $this->store->recordClick($code);
+        $link->increment('clicks');
 
-        return redirect()->away($link['url']);
+        return redirect()->away($link->url);
     }
 }
