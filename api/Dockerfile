@@ -13,9 +13,12 @@ FROM php:8.2-fpm-alpine AS image-builder
 
 WORKDIR /var/www/html
 
-RUN apk add postgresql-dev nginx supervisor
-
-RUN docker-php-ext-install pdo_pgsql bcmath
+RUN apk add --no-cache postgresql-dev nginx supervisor \
+    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+    && docker-php-ext-install pdo_pgsql bcmath \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del .build-deps
 
 COPY --from=composer /app /var/www/html
 
