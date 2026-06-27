@@ -1,3 +1,16 @@
+x-shared-env: &shared-env
+  DB_CONNECTION: pgsql
+  DB_HOST: postgres
+  DB_PORT: 5432
+  DB_DATABASE: url_shortener
+  DB_USERNAME: url_shortener
+  DB_PASSWORD: secret
+  SESSION_DRIVER: file
+  CACHE_STORE: redis
+  QUEUE_CONNECTION: redis
+  REDIS_HOST: redis
+  REDIS_PORT: 6379
+
 services:
   postgres:
     image: postgres:16-alpine
@@ -30,19 +43,25 @@ services:
     env_file:
       - ./api/.env
     environment:
+      <<: *shared-env
       APP_URL: http://localhost:8000
-      DB_CONNECTION: pgsql
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_DATABASE: url_shortener
-      DB_USERNAME: url_shortener
-      DB_PASSWORD: secret
-      SESSION_DRIVER: file
-      CACHE_STORE: redis
-      QUEUE_CONNECTION: redis
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
     depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build: ./api
+    restart: unless-stopped
+    entrypoint: ["php", "artisan", "queue:work", "redis", "--sleep=3", "--tries=3"]
+    env_file:
+      - ./api/.env
+    environment:
+      <<: *shared-env
+    depends_on:
+      api:
+        condition: service_started
       postgres:
         condition: service_healthy
       redis:

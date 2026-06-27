@@ -41,10 +41,10 @@ The **worker** reuses the `api/` Docker image with a different start command —
 | Phase | Topic | Status |
 |-------|-------|--------|
 | 0 | Project layout, prerequisites | **Done** |
-| 1 | Laravel API in Docker (in-memory store) | Next |
-| 2 | docker-compose: API + Postgres + Redis | |
-| 3 | Queue worker (`queue:work`) | |
-| 4 | Frontend (nginx + static HTML/JS) | |
+| 1 | Laravel API in Docker (in-memory store) | Done |
+| 2 | docker-compose: API + Postgres + Redis | Done |
+| 3 | Queue worker (`queue:work`) | **Done** |
+| 4 | Frontend (nginx + static HTML/JS) | Next |
 | 5 | Kubernetes: Deployment + Service | |
 | 6 | ConfigMap, Secret, probes | |
 | 7 | Postgres + Redis in K8s (StatefulSet, PVC) | |
