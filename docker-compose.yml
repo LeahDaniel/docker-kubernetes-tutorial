@@ -38,13 +38,11 @@ services:
 
   api:
     build: ./api
-    ports:
-      - "8000:80"
     env_file:
       - ./api/.env
     environment:
       <<: *shared-env
-      APP_URL: http://localhost:8000
+      APP_URL: http://localhost:8080
     depends_on:
       postgres:
         condition: service_healthy
@@ -66,6 +64,13 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
 
 volumes:
   postgres_data:

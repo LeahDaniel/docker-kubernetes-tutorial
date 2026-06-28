@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: system-ui, sans-serif;
+            max-width: 32rem;
+            margin: 3rem auto;
+            padding: 0 1rem;
+            line-height: 1.5;
+        }
+        h1 { margin-bottom: 0.25rem; }
+        p.subtitle { color: #555; margin-top: 0; }
+        form { display: flex; gap: 0.5rem; margin: 1.5rem 0; }
+        input[type="url"] {
+            flex: 1;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 0.375rem;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+        }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .result {
+            padding: 1rem;
+            background: #f3f4f6;
+            border-radius: 0.375rem;
+            display: none;
+        }
+        .result.visible { display: block; }
+        .error { color: #b91c1c; }
+        a { color: #2563eb; word-break: break-all; }
+    </style>
+</head>
+<body>
+    <h1>URL Shortener</h1>
+    <p class="subtitle">Paste a long URL and get a short link.</p>
+
+    <form id="shorten-form">
+        <input type="url" id="url" name="url" placeholder="https://example.com" required>
+        <button type="submit" id="submit-btn">Shorten</button>
+    </form>
+
+    <div id="result" class="result" aria-live="polite"></div>
+
+    <script src="/app.js"></script>
+</body>
+</html>
